@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <title>Peta Klasifikasi Risiko Kerusakan Bangunan Akibat Gempabumi</title>
+    <!-- <link rel="icon" href="icon/icon.png" type="image/x-icon"> -->
+    
+    <!-- Leaflet CSS Library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Bootstrap CSS Library -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!-- Fontawesome CSS Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <!-- Custom CSS Library -->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+   
+    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.js"></script>
+</head>
+
+<body>
+
+
+    <!-- Awal Topbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #182C61;">
+        <a class="navbar-brand" href="#"><b>Peta Klasifikasi Risiko Kerusakan Bangunan Akibat Gempabumi</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="full-extent-btn"><i class="fas fa-expand-arrows-alt"></i> Kembali
+                        ke Tampilan Layer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#infoModal"><i
+                            class="fas fa-info-circle"></i> Info</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Akhir Topbar -->
+
+    <!-- Awal Modal -->
+    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header alert-dark" style="background-color: #8296ce;">
+                    <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fas fa-info-circle"></i> Info</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <!-- Info Utama -->
+                <div class="modal-body">
+                    <div class="card alert-dark p-3">
+                        VectorGrid merupakan salah satu metode untuk menampilkan data vektor dalam bentuk tile pada
+                        Leaflet. Tujuan penggunaannya adalah untuk mempercepat proses rendering data berukuran besar
+                        atau memiliki kompleksitas tinggi. Data vektor dipecah menjadi tile lebih kecil sehingga
+                        rendering menjadi lebih ringan. Dokumentasi lebih lengkap dapat dilihat di <a
+                            href="https://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html"
+                            target="_blank">https://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html</a>
+                        <hr>
+                        <a href="https://github.com/ridhodwid/Leaflet.GeoJSON.VectorGrid" type="button"
+                            class="btn btn-primary btn-sm btn-block" target="_blank"><i class="fab fa-github"></i> Kode
+                            Sumber Github</a>
+                    </div>
+                </div>
+                <!-- Footer Info -->
+                <div class="modal-footer">
+                    <div class="col text-left">
+                        <a class="btn btn-link btn-sm" type="button" href="https://ridhodwi.my.id"
+                            target="_blank">ridho@2022</a>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Akhir Modal -->
+
+    <div id="container">
+        <div id="map"></div>
+    </div>
+
+    <script>
+
+        var map = L.map('map').setView([-0.955954, 117.618114], 5);
+
+        var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' + '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + '© <a href="https://www.mapbox.com/">Mapbox</a>',
+            mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmlkaG9kd2kiLCJhIjoiY2pmcmV6cDF6MjMwZTMzcnE2dWk4Z3c3YyJ9.Uceki8m-y6Sa-zN7WT7JeQ';
+
+        var greyscale = L.tileLayer(mbUrl, { id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr });
+        var streets = L.tileLayer(mbUrl, { id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr }).addTo(map);
+        var osmstandard = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png');
+
+        var baseLayers = {
+            "Mapbox Greyscale": greyscale,
+            "Mapbox Streets": streets,
+            "OpenStreet Map Standard": osmstandard
+        };
+        var overlay = {
+
+        };
+        // Menambahkan Kontrol Layer
+        L.control.layers(baseLayers, overlay, {
+            collapsed: false
+        }).addTo(map);
+
+        // Menambahkan Skala Batang
+        L.control.scale({
+            maxWidth: 150,
+            imperial: false,
+        }).addTo(map);
+
+        // zoom to full extent
+        $("#full-extent-btn").click(function () {
+            map.setView([-0.955954, 117.618114], 5);
+        });
+
+    </script>
+</body>
+
+</html>

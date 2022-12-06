@@ -1,0 +1,16 @@
+html, body, #container {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+#container {
+    padding-top: 56px;
+}
+#map {
+    width: auto;
+    height: 100%;
+}
+.navbar-brand {
+    font-family: 'Bahnschrift';
+    font-weight: normal;
+}
