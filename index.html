@@ -7,12 +7,12 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <title>Peta Klasifikasi Risiko Kerusakan Bangunan Akibat Gempabumi</title>
+    <title>Peta Klasifikasi Risiko Kerusakan Bangunan Akibat Gempabumi Hasil Pemodelan</title>
     <!-- <link rel="icon" href="icon/icon.png" type="image/x-icon"> -->
 
     <!-- Leaflet Library -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
     <!-- Load Esri Leaflet from CDN -->
     <script src="https://unpkg.com/esri-leaflet@^3.0.8/dist/esri-leaflet.js"></script>
     <script src="https://unpkg.com/esri-leaflet-vector@4.0.0/dist/esri-leaflet-vector.js"></script>
@@ -23,7 +23,7 @@
     <!-- Custom CSS Library -->
     <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.js"></script>
+
 </head>
 
 <body>
@@ -32,7 +32,8 @@
 
     <!-- Awal Topbar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #182C61;">
-        <a class="navbar-brand" href="#"><b>Peta Klasifikasi Risiko Kerusakan Bangunan Akibat Gempabumi</b></a>
+        <a class="navbar-brand" href="#"><b>Peta Klasifikasi Risiko Kerusakan Bangunan Akibat Gempabumi Hasil
+                Pemodelan</b></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -102,26 +103,68 @@
         var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' + '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + '© <a href="https://www.mapbox.com/">Mapbox</a>',
             mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmlkaG9kd2kiLCJhIjoiY2pmcmV6cDF6MjMwZTMzcnE2dWk4Z3c3YyJ9.Uceki8m-y6Sa-zN7WT7JeQ';
 
-        var greyscale = L.tileLayer(mbUrl, { id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr });
-        var streets = L.tileLayer(mbUrl, { id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr }).addTo(map);
-        var osmstandard = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png');
+        var greyscale = L.tileLayer(mbUrl, { id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr }),
+            streets = L.tileLayer(mbUrl, { id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr }).addTo(map),
+            satellite = L.tileLayer(mbUrl, { id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr }),
+            osmstandard = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'});
 
         var s1_5sr = L.esri.Vector.vectorTileLayer(
-            "https://vectortileservices3.arcgis.com/VFq4ZNL4ohXxN8gl/arcgis/rest/services/tesis_kelas_risiko_bangunan_vt/VectorTileServer"
+            "https://vectortileservices3.arcgis.com/VFq4ZNL4ohXxN8gl/arcgis/rest/services/s1_5sr/VectorTileServer"
         ).addTo(map);
 
+        var s1_6sr = L.esri.Vector.vectorTileLayer(
+            "https://vectortileservices3.arcgis.com/VFq4ZNL4ohXxN8gl/arcgis/rest/services/s1_6sr/VectorTileServer"
+        );
+
+        var s1_7sr = L.esri.Vector.vectorTileLayer(
+            "https://vectortileservices3.arcgis.com/VFq4ZNL4ohXxN8gl/arcgis/rest/services/s1_7sr/VectorTileServer"
+        );
+
+        var s2_5sr = L.esri.Vector.vectorTileLayer(
+            "https://vectortileservices3.arcgis.com/VFq4ZNL4ohXxN8gl/arcgis/rest/services/s2_5sr/VectorTileServer"
+        );
+
+        var s2_6sr = L.esri.Vector.vectorTileLayer(
+            "https://vectortileservices3.arcgis.com/VFq4ZNL4ohXxN8gl/arcgis/rest/services/s2_6sr/VectorTileServer"
+        );
+
+        var s2_7sr = L.esri.Vector.vectorTileLayer(
+            "https://vectortileservices3.arcgis.com/VFq4ZNL4ohXxN8gl/arcgis/rest/services/s2_7sr/VectorTileServer"
+        );
+
+        var s3_5sr = L.esri.Vector.vectorTileLayer(
+            "https://vectortileservices3.arcgis.com/VFq4ZNL4ohXxN8gl/arcgis/rest/services/s3_5sr/VectorTileServer"
+        );
+
+        var s3_6sr = L.esri.Vector.vectorTileLayer(
+            "https://vectortileservices3.arcgis.com/VFq4ZNL4ohXxN8gl/arcgis/rest/services/s3_6sr/VectorTileServer"
+        );
+
+        var s3_7sr = L.esri.Vector.vectorTileLayer(
+            "https://vectortileservices3.arcgis.com/VFq4ZNL4ohXxN8gl/arcgis/rest/services/s3_7sr/VectorTileServer"
+        );
+
         var baseLayers = {
+            "Mapbox Satellite": satellite,
             "Mapbox Greyscale": greyscale,
             "Mapbox Streets": streets,
             "OpenStreet Map Standard": osmstandard
         };
-        var overlay = {
-            "Skenario 1 5SR": s1_5sr
-
+        var skenario = {
+            "Skenario 1 5SR": s1_5sr,
+            "Skenario 1 6SR": s1_6sr,
+            "Skenario 1 7SR": s1_7sr,
+            "Skenario 2 5SR": s2_5sr,
+            "Skenario 2 6SR": s2_6sr,
+            "Skenario 2 7SR": s2_7sr,
+            "Skenario 3 5SR": s3_5sr,
+            "Skenario 3 6SR": s3_6sr,
+            "Skenario 3 7SR": s3_7sr
         };
+
         // Menambahkan Kontrol Layer
-        L.control.layers(baseLayers, overlay, {
-            collapsed: false
+        L.control.layers(baseLayers, skenario, {
+            collapsed: false,
         }).addTo(map);
 
         // Menambahkan Skala Batang
@@ -135,6 +178,18 @@
             map.setView([-7.8731, 110.31090597753321], 12);
         });
 
+        var legend = L.control({ position: "bottomleft" });
+
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create("div", "legend");
+            div.innerHTML += "<h4>Klasifikasi Kerusakan</h4>";
+            div.innerHTML += '<i style="background: #62bd89"></i><span>Rendah</span><br>';
+            div.innerHTML += '<i style="background: #f2a127"></i><span>Sedang</span><br>';
+            div.innerHTML += '<i style="background: #fa898b"></i><span>Tinggi</span><br>';
+            return div;
+        };
+
+        legend.addTo(map);
     </script>
 </body>
 
